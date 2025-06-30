@@ -15,6 +15,23 @@ const months = [
 
 let cpiData = {};
 
+function updateMonthOptions(year, select, defaultToEnd = false) {
+  const current = select.value;
+  select.innerHTML = "";
+  const available = months.filter((m) => cpiData[year] && cpiData[year][m] !== undefined);
+  available.forEach((m) => {
+    const opt = document.createElement("option");
+    opt.textContent = m;
+    select.appendChild(opt);
+  });
+  if (available.length === 0) return;
+  if (available.includes(current)) {
+    select.value = current;
+  } else {
+    select.value = defaultToEnd ? available[available.length - 1] : available[0];
+  }
+}
+
 async function loadCpiData() {
   const res = await fetch("CPI-Jan13-To-May25.xlsx");
   const buffer = await res.arrayBuffer();
@@ -45,17 +62,8 @@ function populateSelects() {
   const startYearSel = document.getElementById("start-year");
   const endYearSel = document.getElementById("end-year");
 
-  months.forEach((m) => {
-    const opt1 = document.createElement("option");
-    opt1.textContent = m;
-    startMonthSel.appendChild(opt1);
-
-    const opt2 = document.createElement("option");
-    opt2.textContent = m;
-    endMonthSel.appendChild(opt2);
-  });
-
-  Object.keys(cpiData).forEach((year) => {
+  const years = Object.keys(cpiData).sort();
+  years.forEach((year) => {
     const opt1 = document.createElement("option");
     opt1.textContent = year;
     startYearSel.appendChild(opt1);
@@ -65,10 +73,19 @@ function populateSelects() {
     endYearSel.appendChild(opt2);
   });
 
-  startMonthSel.value = "January";
-  endMonthSel.value = "January";
-  startYearSel.value = Object.keys(cpiData)[0];
-  endYearSel.value = Object.keys(cpiData)[Object.keys(cpiData).length - 1];
+  startYearSel.value = years[0];
+  endYearSel.value = years[years.length - 1];
+
+  updateMonthOptions(startYearSel.value, startMonthSel);
+  updateMonthOptions(endYearSel.value, endMonthSel, true);
+
+  startYearSel.addEventListener("change", () => {
+    updateMonthOptions(startYearSel.value, startMonthSel);
+  });
+
+  endYearSel.addEventListener("change", () => {
+    updateMonthOptions(endYearSel.value, endMonthSel, true);
+  });
 }
 
 function calculate() {

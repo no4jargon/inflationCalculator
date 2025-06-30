@@ -7,4 +7,7 @@ see how much a given amount of money would be worth in another time period.
 The CPI values are loaded dynamically from the `CPI-Jan13-To-May25.xlsx` file.
 These values are approximate and meant for demonstration purposes only.
 
+The month and year dropdowns are populated from the Excel data, so they match
+the available range (January&nbsp;2013 to May&nbsp;2025 in the provided file).
+
 Open `index.html` in your browser to use the calculator.
