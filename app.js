@@ -42,7 +42,7 @@ async function loadCpiData() {
   const header = rows[headerRowIndex];
   const yearCol = header.indexOf("Year");
   const monthCol = header.indexOf("Month");
-  const indexCol = header.indexOf("IndexValue");
+  const indexCol = header.indexOf("Combined");
   for (let i = headerRowIndex + 1; i < rows.length; i++) {
     const row = rows[i];
     if (!row || row.length === 0) continue;
