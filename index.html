@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CPI Inflation Calculator (India)</title>
+  <style>
+    .calculator {
+      max-width: 360px;
+      margin: 2rem auto;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      font-family: sans-serif;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #1e3a8a;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .row label {
+      margin-right: 0.5rem;
+    }
+    .row input,
+    .row select {
+      flex: 1;
+      padding: 0.4rem;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+    .result {
+      background: #fde68a;
+      padding: 0.5rem;
+      text-align: center;
+      font-weight: bold;
+      margin: 0.5rem 0 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.6rem;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="calculator">
+    <h1>CPI Inflation Calculator (India)</h1>
+    <form id="calc-form">
+      <div class="row">
+        <label for="amount">$</label>
+        <input type="number" id="amount" name="amount" step="0.01" value="100.00" aria-label="Amount in rupees" />
+      </div>
+      <div class="row">
+        <label for="start-month">in</label>
+        <select id="start-month" name="startMonth"></select>
+        <select id="start-year" name="startYear"></select>
+      </div>
+      <p>has the same buying power as</p>
+      <div class="result" id="result" aria-live="polite"></div>
+      <div class="row">
+        <label for="end-month">in</label>
+        <select id="end-month" name="endMonth"></select>
+        <select id="end-year" name="endYear"></select>
+      </div>
+      <button type="submit">Calculate</button>
+    </form>
+  </section>
+  <script src="cpi-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
