@@ -13,6 +13,32 @@ const months = [
   "December",
 ];
 
+let cpiData = {};
+
+async function loadCpiData() {
+  const res = await fetch("CPI-Jan13-To-May25.xlsx");
+  const buffer = await res.arrayBuffer();
+  const wb = XLSX.read(buffer, { type: "array" });
+  const sheet = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true });
+  const headerRowIndex = 2; // Row number 3 in the sheet
+  const header = rows[headerRowIndex];
+  const yearCol = header.indexOf("Year");
+  const monthCol = header.indexOf("Month");
+  const indexCol = header.indexOf("IndexValue");
+  for (let i = headerRowIndex + 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || row.length === 0) continue;
+    const year = row[yearCol];
+    const month = row[monthCol];
+    const value = parseFloat(row[indexCol]);
+    if (year && month && !isNaN(value)) {
+      if (!cpiData[year]) cpiData[year] = {};
+      cpiData[year][month] = value;
+    }
+  }
+}
+
 function populateSelects() {
   const startMonthSel = document.getElementById("start-month");
   const endMonthSel = document.getElementById("end-month");
@@ -64,5 +90,7 @@ document.getElementById("calc-form").addEventListener("submit", (e) => {
   calculate();
 });
 
-populateSelects();
-calculate();
+loadCpiData().then(() => {
+  populateSelects();
+  calculate();
+});
