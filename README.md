@@ -1,5 +1,7 @@
 # inflationCalculator
 
+Go to https://no4jargon.github.io/inflationCalculator/
+
 This tool provides a simple inflation calculator for India based on a sample
 Consumer Price Index (CPI) dataset. Select a starting and ending month/year to
 see how much a given amount of money would be worth in another time period.
